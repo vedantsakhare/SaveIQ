@@ -1,3 +1,5 @@
+/* global process */
+
 import { GoogleGenAI } from "@google/genai";
 
 const MODEL = "gemini-3.8-flash";

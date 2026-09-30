@@ -1,6 +1,11 @@
-import  { useState } from "react";
+import { useState } from "react";
 
-export default function Profile({ user = {}, onSave, onNavigate }) {
+export default function Profile({
+  user = {},
+  onSave,
+  onNavigate,
+  onLogout,
+}) {
   const [form, setForm] = useState({
     name: user.name || "",
     email: user.email || "",
@@ -38,8 +43,8 @@ export default function Profile({ user = {}, onSave, onNavigate }) {
           <p>Keep your financial information up to date.</p>
         </div>
 
-        <button onClick={() => onNavigate?.("home")}>
-          Back to Home
+        <button onClick={() => onNavigate?.("Dashboard")}>
+          Back to Dashboard
         </button>
       </div>
 
@@ -113,13 +118,23 @@ export default function Profile({ user = {}, onSave, onNavigate }) {
         <div className="form-actions">
           <button
             type="button"
-            onClick={() => onNavigate?.("home")}
+            onClick={() => onNavigate?.("Dashboard")}
           >
             Cancel
           </button>
 
           <button type="submit" className="primary-button">
             Save Profile
+          </button>
+        </div>
+
+        <div className="profile-logout">
+          <button
+            type="button"
+            onClick={onLogout}
+            className="logout-button"
+          >
+            Log Out
           </button>
         </div>
       </form>

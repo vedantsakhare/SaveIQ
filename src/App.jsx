@@ -25,68 +25,13 @@ import {
 import "./App.css";
 import Profile from "./components/Profile";
 import SettingsPage from "./components/Settings";
+import Login from "./components/Login";
+import Register from "./components/Register";
 
 
-const INITIAL_MISSIONS = [
-  {
-    id: 1,
-    name: "Emergency Shield",
-    category: "Emergency",
-    target: 50000,
-    saved: 18000,
-    targetDate: "2027-03-31",
-    color: "purple",
-  },
-  {
-    id: 2,
-    name: "Dream Home",
-    category: "Home",
-    target: 300000,
-    saved: 85000,
-    targetDate: "2028-12-31",
-    color: "green",
-  },
-  {
-    id: 3,
-    name: "Freedom Trip",
-    category: "Travel",
-    target: 100000,
-    saved: 42000,
-    targetDate: "2027-12-31",
-    color: "orange",
-  },
-];
 
-const INITIAL_TRANSACTIONS = [
-  {
-    id: 1,
-    title: "Emergency Shield",
-    type: "income",
-    amount: 5000,
-    date: "30 Sep 2026",
-  },
-  {
-    id: 2,
-    title: "Dream Home",
-    type: "income",
-    amount: 8000,
-    date: "28 Sep 2026",
-  },
-  {
-    id: 3,
-    title: "Food & Dining",
-    type: "expense",
-    amount: 1200,
-    date: "27 Sep 2026",
-  },
-  {
-    id: 4,
-    title: "Freedom Trip",
-    type: "income",
-    amount: 3000,
-    date: "25 Sep 2026",
-  },
-];
+
+
 
 const getCurrentDate = () =>
   new Date().toLocaleDateString("en-IN", {
@@ -110,20 +55,39 @@ const formatMoney = (amount) =>
   }).format(amount);
 
 function App() {
+    
+  const [authPage, setAuthPage] = useState("login");
+
+const [user, setUser] = useState(() => {
+  const stored = localStorage.getItem("saveiq_user");
+  return stored ? JSON.parse(stored) : null;
+});
+
+function handleLogin(userData) {
+  setUser(userData);
+  localStorage.setItem("saveiq_user", JSON.stringify(userData));
+}
+
+function handleLogout() {
+  setUser(null);
+  localStorage.removeItem("saveiq_user");
+}
   
 
   const [activePage, setActivePage] = useState("Dashboard");
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  const [missions, setMissions] = useState(() => {
-    const stored = localStorage.getItem("saveiq_missions");
-    return stored ? JSON.parse(stored) : INITIAL_MISSIONS;
-  });
+ const [missions, setMissions] = useState(() => {
+  const stored = localStorage.getItem("saveiq_missions");
+  return stored ? JSON.parse(stored) : [];
+});
 
-  const [transactions, setTransactions] = useState(() => {
-    const stored = localStorage.getItem("saveiq_transactions");
-    return stored ? JSON.parse(stored) : INITIAL_TRANSACTIONS;
-  });
+
+const [transactions, setTransactions] = useState(() => {
+  const stored = localStorage.getItem("saveiq_transactions");
+  return stored ? JSON.parse(stored) : [];
+});
+
 
   
 
@@ -463,6 +427,19 @@ function addTransaction(e) {
     setActivePage(page);
     setSidebarOpen(false);
   }
+if (!user) {
+  return authPage === "login" ? (
+    <Login
+      onLogin={handleLogin}
+      onRegister={() => setAuthPage("register")}
+    />
+  ) : (
+    <Register
+      onRegister={handleLogin}
+      onLogin={() => setAuthPage("login")}
+    />
+  );
+}
 
   return (
     <div className="saveiq-app">
@@ -1368,14 +1345,17 @@ function addTransaction(e) {
 )}
 {/* SETTINGS */}
 
-{activePage === "Settings" && (
-  <SettingsPage />
-)}
+
   {/* PROFILE */}
 
 {activePage === "Profile" && (
-  <Profile />
+  <Profile
+    user={user}
+    onLogout={handleLogout}
+    onNavigate={navigation}
+  />
 )}
+
 
 
 
