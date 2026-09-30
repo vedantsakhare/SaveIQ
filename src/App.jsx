@@ -23,6 +23,9 @@ import {
 } from "lucide-react";
 
 import "./App.css";
+import Profile from "./components/Profile";
+import SettingsPage from "./components/Settings";
+
 
 const INITIAL_MISSIONS = [
   {
@@ -257,7 +260,7 @@ if (!response.ok) {
 setAiResult(data.result);
 
 
-    setAiResult(data.result);
+   
   } catch (error) {
     console.error(error);
 
@@ -569,10 +572,29 @@ function addTransaction(e) {
             </div>
           </div>
 
-          <button className="nav-item">
-            <Settings size={18} />
-            Settings
-          </button>
+          <button
+  className={
+    activePage === "Settings"
+      ? "nav-item active"
+      : "nav-item"
+  }
+  onClick={() => navigation("Settings")}
+>
+  <Settings size={18} />
+  Settings
+</button>
+<button
+  className={
+    activePage === "Profile"
+      ? "nav-item active"
+      : "nav-item"
+  }
+  onClick={() => navigation("Profile")}
+>
+  <Wallet size={18} />
+  Profile
+</button>
+
         </div>
       </aside>
 
@@ -1323,6 +1345,23 @@ function addTransaction(e) {
             </div>
           </section>
         )}
+  {/* SETTINGS */}
+
+{activePage === "Settings" && (
+  <SettingsPage />
+)}
+{/* SETTINGS */}
+
+{activePage === "Settings" && (
+  <SettingsPage />
+)}
+  {/* PROFILE */}
+
+{activePage === "Profile" && (
+  <Profile />
+)}
+
+
 
         {/* AI PAGE */}
 
