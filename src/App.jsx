@@ -88,6 +88,20 @@ const INITIAL_TRANSACTIONS = [
   },
 ];
 
+const getCurrentDate = () =>
+  new Date().toLocaleDateString("en-IN", {
+    weekday: "long",
+    day: "2-digit",
+    month: "long",
+    year: "numeric",
+  });
+
+const getCurrentMonthYear = () =>
+  new Date().toLocaleDateString("en-IN", {
+    month: "long",
+    year: "numeric",
+  });
+
 const formatMoney = (amount) =>
   new Intl.NumberFormat("en-IN", {
     style: "currency",
@@ -614,9 +628,10 @@ function addTransaction(e) {
         <div className="topbar">
           <div>
             <p className="topbar-date">
-              <CalendarDays size={14} />
-              Wednesday, 30 September 2026
-            </p>
+  <CalendarDays size={14} />
+  {getCurrentDate()}
+</p>
+
 
             <h2>
               Welcome back, <span>Saver.</span>
@@ -766,8 +781,9 @@ function addTransaction(e) {
                 </div>
 
                 <span className="period-tag">
-                  September 2026
-                </span>
+  {getCurrentMonthYear()}
+</span>
+
               </div>
 
               <div className="pulse-grid">
