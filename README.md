@@ -3,6 +3,7 @@ SaveIQ — Smart Savings OS
 SaveIQ is a modern personal finance dashboard designed to help users track savings goals, monitor transactions, understand financial progress, and receive AI-powered financial insights.
 
 🚀 Live Demo
+[Click here to view the Project Report](SaveIQ_Project_Report_VedantSakhare%20\(1\)%20\(1\).docx)
 
 Production: Deployed with Vercel
 
